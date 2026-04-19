@@ -2,7 +2,7 @@
 
 <img width="1880" height="1326" alt="Image" src="https://github.com/user-attachments/assets/9885c9eb-ceff-4c95-ad4a-584f68553514" />
 
-A self-hosted, all-in-one penetration testing web app that runs locally on `localhost:5000`. Built with Flask and plain JavaScript — no frameworks, no cloud, no data leaves your machine.
+### A self-hosted, all-in-one penetration testing web app that runs locally on `localhost:5000`. Built with Flask and plain JavaScript — no frameworks, no cloud, no data leaves your machine.
 
 > **For authorized security testing only.** Only use against systems you own or have explicit written permission to test.
 
