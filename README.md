@@ -1,6 +1,6 @@
 # CyberTool
 
-[CyberTool]("Screenshot 2026-04-19 135803.png")
+[CyberTool](Screenshot.png)
 
 A self-hosted, all-in-one penetration testing web app that runs locally on `localhost:5000`. Built with Flask and plain JavaScript — no frameworks, no cloud, no data leaves your machine.
 
