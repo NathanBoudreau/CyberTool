@@ -109,7 +109,7 @@ Dir Brute, Web Brute, and SQL Injection all support routing traffic through an H
 - Runs entirely on localhost — no external services, no telemetry
 - Nmap commands are validated with argument whitelisting before execution
 - File paths are sanitized with `os.path.basename` + `os.path.abspath` to prevent traversal
-- Rate limiting is applied to brute-force endpoints
+- Rate limiting is applied to all scanning endpoints (port scan, subdomain enum, dir brute, web brute, SQLi, hash crack)
 - All state is stored in memory with thread-safe locking
 
 ---

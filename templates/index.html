@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberTool</title>
+<link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+<!-- ── NAVBAR ───────────────────────────────────────────────────── -->
+<nav class="navbar">
+    <div class="nav-brand">CYBERTOOL</div>
+    <div class="conn-indicator" id="conn-indicator" title="Internet connectivity">
+        <span class="conn-dot"></span>
+        <span class="conn-label" id="conn-label">CHECKING</span>
+    </div>
+    <button class="theme-toggle" id="theme-toggle" title="Toggle light / dark mode">◐ LIGHT</button>
+</nav>
+
+<!-- ── LAYOUT ───────────────────────────────────────────────────── -->
+<div class="layout">
+
+    <!-- ── SIDEBAR ──────────────────────────────────────────────── -->
+    <aside class="sidebar">
+        <nav class="tool-nav">
+            <div class="nav-section">Dashboard</div>
+            <a class="nav-item active" data-tool="home"           href="#">Home</a>
+
+            <div class="nav-section">Recon</div>
+            <a class="nav-item"        data-tool="port-scanner"   href="#">Port Scanner</a>
+            <a class="nav-item"        data-tool="dns-lookup"      href="#">DNS / WHOIS</a>
+            <a class="nav-item"        data-tool="subdomain-enum"  href="#">Subdomain Enum</a>
+
+            <div class="nav-section">Web</div>
+            <a class="nav-item"        data-tool="headers"         href="#">Header Analyzer</a>
+            <a class="nav-item"        data-tool="ssl"             href="#">SSL Inspector</a>
+            <a class="nav-item"        data-tool="dir-brute"       href="#">Dir Brute Force</a>
+            <a class="nav-item"        data-tool="web-brute"       href="#">Web Login Brute</a>
+            <a class="nav-item"        data-tool="sqli"            href="#">SQLi Scanner</a>
+            <a class="nav-item"        data-tool="robots"          href="#">Robots / Sitemap</a>
+
+            <div class="nav-section">Utils</div>
+            <a class="nav-item"        data-tool="hash-tools"      href="#">Hash Tools</a>
+            <a class="nav-item"        data-tool="hash-crack"      href="#">Hash Cracker</a>
+            <a class="nav-item"        data-tool="encoder"         href="#">Encoder / Decoder</a>
+            <a class="nav-item"        data-tool="cve-search"      href="#">CVE Search</a>
+            <a class="nav-item"        data-tool="revshell"        href="#">Reverse Shell Gen</a>
+            <a class="nav-item"        data-tool="subnet"          href="#">Subnet Calculator</a>
+            <a class="nav-item"        data-tool="wordlists"       href="#">Wordlists</a>
+
+            <div class="nav-section">Data</div>
+            <a class="nav-item"        data-tool="reports"         href="#">Reports</a>
+            <a class="nav-item"        data-tool="logs"            href="#">Logs</a>
+        </nav>
+    </aside>
+
+    <!-- ── MAIN ─────────────────────────────────────────────────── -->
+    <main class="main">
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  HOME                        ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <div class="tool-panel active" id="tool-home">
+            <div class="home-hero">
+                <div class="home-brand">CYBERTOOL</div>
+                <div class="home-tagline">Local penetration testing suite &mdash; runs entirely on your machine</div>
+            </div>
+
+            <div class="home-stats-grid">
+                <div class="home-stat">
+                    <div class="home-stat-val" id="hstat-ip">—</div>
+                    <div class="home-stat-label">Target IP</div>
+                </div>
+                <div class="home-stat">
+                    <div class="home-stat-val" id="hstat-domain">—</div>
+                    <div class="home-stat-label">Domain</div>
+                </div>
+                <div class="home-stat">
+                    <div class="home-stat-val" id="hstat-ports">0</div>
+                    <div class="home-stat-label">Open Ports</div>
+                </div>
+                <div class="home-stat">
+                    <div class="home-stat-val" id="hstat-reports">—</div>
+                    <div class="home-stat-label">Saved Reports</div>
+                </div>
+            </div>
+
+            <div class="home-grid-label">TOOLS</div>
+
+            <div class="home-cat-label">Recon</div>
+            <div class="home-tools-grid">
+                <div class="home-tool-card" onclick="navTo('port-scanner')">
+                    <div class="htc-icon">[PS]</div>
+                    <div class="htc-name">Port Scanner</div>
+                    <div class="htc-desc">TCP scan with service detection, banner grabbing &amp; vuln checks</div>
+                </div>
+                <div class="home-tool-card" onclick="navTo('dns-lookup')">
+                    <div class="htc-icon">[DNS]</div>
+                    <div class="htc-name">DNS / WHOIS</div>
+                    <div class="htc-desc">DNS records, reverse lookup, MX/NS and WHOIS data</div>
+                </div>
+                <div class="home-tool-card" onclick="navTo('subdomain-enum')">
+                    <div class="htc-icon">[SUB]</div>
+                    <div class="htc-name">Subdomain Enum</div>
+                    <div class="htc-desc">DNS brute-force discovery with a built-in wordlist</div>
+                </div>
+            </div>
+
+            <div class="home-cat-label">Web</div>
+            <div class="home-tools-grid">
+                <div class="home-tool-card" onclick="navTo('headers')">
+                    <div class="htc-icon">[HDR]</div>
+                    <div class="htc-name">Header Analyzer</div>
+                    <div class="htc-desc">HTTP security headers analysis and grading</div>
+                </div>
+                <div class="home-tool-card" onclick="navTo('dir-brute')">
+                    <div class="htc-icon">[DIR]</div>
+                    <div class="htc-name">Dir Brute Force</div>
+                    <div class="htc-desc">Discover hidden paths and directories via wordlist</div>
+                </div>
+                <div class="home-tool-card" onclick="navTo('web-brute')">
+                    <div class="htc-icon">[WB]</div>
+                    <div class="htc-name">Web Login Brute</div>
+                    <div class="htc-desc">Test login pages for weak credentials with a password wordlist</div>
+                </div>
+                <div class="home-tool-card" onclick="navTo('robots')">
+                    <div class="htc-icon">[ROB]</div>
+                    <div class="htc-name">Robots / Sitemap</div>
+                    <div class="htc-desc">Fetch robots.txt &amp; sitemap to uncover disallowed paths</div>
+                </div>
+                <div class="home-tool-card" onclick="navTo('sqli')">
+                    <div class="htc-icon">[SQL]</div>
+                    <div class="htc-name">SQLi Scanner</div>
+                    <div class="htc-desc">Error-based, time-based blind and differential SQL injection detection</div>
+                </div>
+                <div class="home-tool-card" onclick="navTo('ssl')">
+                    <div class="htc-icon">[SSL]</div>
+                    <div class="htc-name">SSL Inspector</div>
+                    <div class="htc-desc">Certificate details, expiry, SANs, protocol version and cipher strength</div>
+                </div>
+            </div>
+
+            <div class="home-cat-label">Utils</div>
+            <div class="home-tools-grid">
+                <div class="home-tool-card" onclick="navTo('hash-tools')">
+                    <div class="htc-icon">[HSH]</div>
+                    <div class="htc-name">Hash Tools</div>
+                    <div class="htc-desc">Identify hash types or generate MD5/SHA hashes</div>
+                </div>
+                <div class="home-tool-card" onclick="navTo('hash-crack')">
+                    <div class="htc-icon">[CRK]</div>
+                    <div class="htc-name">Hash Cracker</div>
+                    <div class="htc-desc">Crack MD5/SHA hashes against the built-in password wordlist</div>
+                </div>
+                <div class="home-tool-card" onclick="navTo('encoder')">
+                    <div class="htc-icon">[ENC]</div>
+                    <div class="htc-name">Encoder / Decoder</div>
+                    <div class="htc-desc">Base64, Hex, URL, HTML, Binary, ROT13 and more</div>
+                </div>
+                <div class="home-tool-card" onclick="navTo('cve-search')">
+                    <div class="htc-icon">[CVE]</div>
+                    <div class="htc-name">CVE Search</div>
+                    <div class="htc-desc">Search the vulnerability database by service, port, or CVE ID</div>
+                </div>
+                <div class="home-tool-card" onclick="navTo('revshell')">
+                    <div class="htc-icon">[RSH]</div>
+                    <div class="htc-name">Reverse Shell Gen</div>
+                    <div class="htc-desc">Generate Linux, Windows, and web reverse shell commands</div>
+                </div>
+                <div class="home-tool-card" onclick="navTo('subnet')">
+                    <div class="htc-icon">[NET]</div>
+                    <div class="htc-name">Subnet Calculator</div>
+                    <div class="htc-desc">CIDR range, broadcast, usable hosts and subnet math</div>
+                </div>
+            </div>
+
+            <div class="home-cat-label">Data</div>
+            <div class="home-tools-grid">
+                <div class="home-tool-card" onclick="navTo('reports')">
+                    <div class="htc-icon">[RPT]</div>
+                    <div class="htc-name">Reports</div>
+                    <div class="htc-desc">View and manage all saved scan reports</div>
+                </div>
+            </div>
+
+            <div class="home-grid-label">RECENT REPORTS</div>
+            <div class="home-recent" id="home-recent">
+                <div class="results-placeholder">Loading...</div>
+            </div>
+
+            <div class="home-grid-label" style="margin-top:28px">SESSION</div>
+            <div class="form-row">
+                <button class="btn btn-ghost" onclick="clearAll()">Clear Everything</button>
+                <button class="btn btn-ghost" onclick="saveAllReport()">Save All to Report</button>
+            </div>
+        </div>
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  PORT SCANNER                ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <div class="tool-panel" id="tool-port-scanner">
+            <div class="panel-header">
+                <h2>Port Scanner</h2>
+                <p class="panel-desc">TCP port scan with service detection and banner grabbing. Results auto-populate other tools.</p>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Target IP or Hostname</label>
+                    <input type="text" id="ps-target" placeholder="192.168.1.1 or example.com">
+                </div>
+                <div class="form-group-sm">
+                    <label>Port Range</label>
+                    <input type="text" id="ps-ports" value="1-1024" placeholder="1-1024">
+                </div>
+                <div class="form-group-xs">
+                    <label>Threads</label>
+                    <input type="number" id="ps-threads" value="100" min="1" max="500">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <button class="btn btn-primary" id="ps-scan-btn">Scan</button>
+                <button class="btn btn-ghost" onclick="setPortsPreset('top100')">Top 100</button>
+                <button class="btn btn-ghost" onclick="setPortsPreset('common')">Common</button>
+                <button class="btn btn-ghost" onclick="setPortsPreset('full')">Full (1–65535)</button>
+                <button class="btn btn-danger hidden" id="ps-stop-btn">Stop</button>
+            </div>
+
+            <div class="progress-wrap hidden" id="ps-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="ps-progress-fill"></div>
+                    <div class="progress-label" id="ps-progress-label">0%</div>
+                </div>
+            </div>
+
+            <div class="results-area" id="ps-results">
+                <div class="results-placeholder">Scan results will appear here in real time...</div>
+            </div>
+
+            <div class="result-actions hidden" id="ps-actions">
+                <button class="btn btn-ghost" onclick="copyResults('ps-results')">Copy All</button>
+                <button class="btn btn-ghost" onclick="saveReport('port-scanner')">Save Report</button>
+            </div>
+
+            <!-- Nmap Command Builder -->
+            <div class="nmap-section hidden" id="nmap-section">
+                <div class="nmap-section-header" onclick="toggleNmap()">
+                    <span class="nmap-section-title">Nmap Command Builder</span>
+                    <span class="nmap-chevron" id="nmap-chevron">▶</span>
+                </div>
+                <div class="nmap-body" id="nmap-body">
+                    <span class="nmap-custom-label">Custom / Edit Command</span>
+                    <input class="nmap-input" id="nmap-cmd" type="text" placeholder="nmap -sV -sC -p 22,80,443 192.168.1.1" spellcheck="false">
+                    <div class="form-row" style="margin-bottom:0">
+                        <button class="btn btn-primary" onclick="runNmap()" id="nmap-run-btn">Run Nmap</button>
+                        <button class="btn btn-ghost"   onclick="copyText(document.getElementById('nmap-cmd').value)">Copy Command</button>
+                        <span id="nmap-avail" style="font-family:var(--mono);font-size:11px;color:var(--text-muted);margin-left:4px"></span>
+                    </div>
+                    <div class="nmap-output" id="nmap-output"></div>
+                    <div class="nmap-save-row hidden" id="nmap-save-row">
+                        <button class="btn btn-ghost" style="font-size:13px" onclick="saveNmapReport()">Save Nmap Report</button>
+                        <a id="nmap-md-download" class="btn btn-ghost hidden" style="font-size:13px;text-decoration:none" download>Download .md</a>
+                    </div>
+                    <hr class="nmap-divider">
+                    <span class="nmap-custom-label">Custom Presets</span>
+                    <div id="nmap-custom-presets"></div>
+                    <div class="form-row" style="margin-top:8px;margin-bottom:0">
+                        <input type="text" id="nmap-preset-label" placeholder="Preset label..." style="flex:0 0 180px">
+                        <button class="btn btn-ghost" style="font-size:13px" onclick="addNmapCustomPreset()">+ Save as Preset</button>
+                    </div>
+                    <hr class="nmap-divider">
+                    <span class="nmap-custom-label">Preset Commands</span>
+                    <div class="nmap-presets" id="nmap-presets">
+                        <!-- Populated by JS after scan -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  DNS / WHOIS                 ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <div class="tool-panel" id="tool-dns-lookup">
+            <div class="panel-header">
+                <h2>DNS / WHOIS Lookup</h2>
+                <p class="panel-desc">DNS resolution, reverse lookup, MX/NS records, and WHOIS data.</p>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Target Domain or IP</label>
+                    <input type="text" id="dns-target" placeholder="example.com or 192.168.1.1">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <button class="btn btn-primary" id="dns-lookup-btn">Lookup</button>
+            </div>
+
+            <div class="results-area" id="dns-results">
+                <div class="results-placeholder">Results will appear here...</div>
+            </div>
+
+            <div class="result-actions hidden" id="dns-actions">
+                <button class="btn btn-ghost" onclick="copyResults('dns-results')">Copy All</button>
+                <button class="btn btn-ghost" onclick="saveReport('dns')">Save Report</button>
+            </div>
+        </div>
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  SUBDOMAIN ENUM              ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <div class="tool-panel" id="tool-subdomain-enum">
+            <div class="panel-header">
+                <h2>Subdomain Enumerator</h2>
+                <p class="panel-desc">DNS brute-force subdomain discovery using a built-in wordlist.</p>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Target Domain (no www)</label>
+                    <input type="text" id="sub-target" placeholder="example.com">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group-sm">
+                    <label title="Upload wordlists in the Wordlists manager">Wordlist</label>
+                    <select id="sub-wordlist"><option value="">— built-in —</option></select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <button class="btn btn-primary" id="sub-scan-btn">Enumerate</button>
+                <button class="btn btn-danger hidden" id="sub-stop-btn">Stop</button>
+            </div>
+
+            <div class="progress-wrap hidden" id="sub-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="sub-progress-fill"></div>
+                    <div class="progress-label" id="sub-progress-label">0%</div>
+                </div>
+            </div>
+
+            <div class="results-area" id="sub-results">
+                <div class="results-placeholder">Found subdomains will stream in here...</div>
+            </div>
+
+            <div class="result-actions hidden" id="sub-actions">
+                <button class="btn btn-ghost" onclick="copyResults('sub-results')">Copy All</button>
+                <button class="btn btn-ghost" onclick="saveReport('subdomains')">Save Report</button>
+            </div>
+        </div>
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  HEADER ANALYZER             ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <div class="tool-panel" id="tool-headers">
+            <div class="panel-header">
+                <h2>HTTP Header Analyzer</h2>
+                <p class="panel-desc">Check HTTP security headers and grade the target's security posture.</p>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Target URL</label>
+                    <input type="text" id="hdr-url" placeholder="http://192.168.1.1 or https://example.com">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <button class="btn btn-primary" id="hdr-analyze-btn">Analyze</button>
+            </div>
+
+            <div class="results-area" id="hdr-results">
+                <div class="results-placeholder">Header analysis results will appear here...</div>
+            </div>
+
+            <div class="result-actions hidden" id="hdr-actions">
+                <button class="btn btn-ghost" onclick="copyResults('hdr-results')">Copy All</button>
+                <button class="btn btn-ghost" onclick="saveReport('headers')">Save Report</button>
+            </div>
+        </div>
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  SSL INSPECTOR               ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <div class="tool-panel" id="tool-ssl">
+            <div class="panel-header">
+                <h2>SSL / TLS Inspector</h2>
+                <p class="panel-desc">Inspect the SSL/TLS certificate for any host — expiry, SANs, issuer, protocol version and cipher strength.</p>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label title="Hostname or IP to connect to — scheme is stripped automatically">Host</label>
+                    <input type="text" id="ssl-host" placeholder="example.com or 192.168.1.1">
+                </div>
+                <div class="form-group-sm">
+                    <label title="Port to connect to (default 443)">Port</label>
+                    <input type="number" id="ssl-port" value="443" min="1" max="65535" style="width:90px">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <button class="btn btn-primary" id="ssl-inspect-btn">Inspect</button>
+            </div>
+
+            <div class="results-area" id="ssl-results">
+                <div class="results-placeholder">Certificate details will appear here...</div>
+            </div>
+
+            <div class="result-actions hidden" id="ssl-actions">
+                <button class="btn btn-ghost" onclick="copyResults('ssl-results')">Copy All</button>
+                <button class="btn btn-ghost" onclick="saveReport('ssl')">Save Report</button>
+            </div>
+        </div>
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  DIR BRUTE FORCE             ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <div class="tool-panel" id="tool-dir-brute">
+            <div class="panel-header">
+                <h2>Directory Brute Force</h2>
+                <p class="panel-desc">Discover hidden files and directories using a built-in or custom wordlist. Reports 200/301/401/403/500 responses.</p>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label title="The base URL to scan. Must include http:// or https://">Base URL</label>
+                    <input type="text" id="dir-url" placeholder="http://192.168.1.1 or https://example.com" title="Enter the target base URL">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group-sm">
+                    <label title="Comma-separated file extensions to append to each path (e.g. php,asp,txt)">Extensions</label>
+                    <input type="text" id="dir-extensions" placeholder="php,asp,txt" title="File extensions to test">
+                </div>
+                <div class="form-group-sm">
+                    <label title="Wordlist uploaded via the Wordlists manager">Wordlist</label>
+                    <select id="dir-wordlist"><option value="">— built-in —</option></select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <label style="display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;cursor:pointer">
+                    <input type="checkbox" id="dir-recursive"> Recursive scan
+                </label>
+                <div class="form-group-xs" id="dir-depth-wrap" style="display:none">
+                    <label>Max Depth</label>
+                    <input type="number" id="dir-depth" value="2" min="1" max="5">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <button class="btn btn-primary" id="dir-scan-btn">Scan</button>
+                <button class="btn btn-danger hidden" id="dir-stop-btn">Stop</button>
+            </div>
+
+            <div class="progress-wrap hidden" id="dir-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="dir-progress-fill"></div>
+                    <div class="progress-label" id="dir-progress-label">0%</div>
+                </div>
+            </div>
+
+            <div class="results-area" id="dir-results">
+                <div class="results-placeholder">Discovered paths will stream in here...</div>
+            </div>
+
+            <div class="result-actions hidden" id="dir-actions">
+                <button class="btn btn-ghost" onclick="copyResults('dir-results')">Copy All</button>
+                <button class="btn btn-ghost" onclick="saveReport('dirs')">Save Report</button>
+            </div>
+        </div>
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  HASH TOOLS                  ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <div class="tool-panel" id="tool-hash-tools">
+            <div class="panel-header">
+                <h2>Hash Tools</h2>
+                <p class="panel-desc">Identify hash types or generate MD5 / SHA-1 / SHA-256 / SHA-512 hashes.</p>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Hash or Input Text</label>
+                    <textarea id="hash-input" rows="3" placeholder="Paste a hash to identify it, or enter text to generate a hash..."></textarea>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <button class="btn btn-primary" id="hash-identify-btn">Identify Hash</button>
+                <button class="btn btn-ghost" onclick="generateHash('md5')">MD5</button>
+                <button class="btn btn-ghost" onclick="generateHash('sha1')">SHA-1</button>
+                <button class="btn btn-ghost" onclick="generateHash('sha256')">SHA-256</button>
+                <button class="btn btn-ghost" onclick="generateHash('sha512')">SHA-512</button>
+            </div>
+
+            <div class="results-area" id="hash-results">
+                <div class="results-placeholder">Results will appear here...</div>
+            </div>
+        </div>
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  ENCODER / DECODER           ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <div class="tool-panel" id="tool-encoder">
+            <div class="panel-header">
+                <h2>Encoder / Decoder</h2>
+                <p class="panel-desc">Encode and decode Base64, Hex, URL, HTML, Binary, ROT13, Caesar and more.</p>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Input</label>
+                    <textarea id="enc-input" rows="4" placeholder="Enter text to encode or decode..."></textarea>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group-sm">
+                    <label>Format</label>
+                    <select id="enc-format">
+                        <option value="base64">Base64</option>
+                        <option value="base32">Base32</option>
+                        <option value="base58">Base58</option>
+                        <option value="hex">Hex</option>
+                        <option value="url">URL Encode</option>
+                        <option value="url_full">URL Full (%XX)</option>
+                        <option value="html">HTML Entities</option>
+                        <option value="binary">Binary</option>
+                        <option value="octal">Octal</option>
+                        <option value="rot13">ROT13</option>
+                        <option value="caesar">Caesar (shift 13)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <button class="btn btn-primary" onclick="runEncode('encode')">Encode</button>
+                <button class="btn btn-ghost"   onclick="runEncode('decode')">Decode</button>
+                <button class="btn btn-ghost"   onclick="swapEncDec()">⇅ Swap to Input</button>
+            </div>
+
+            <div class="results-area" id="enc-results">
+                <div class="results-placeholder">Result will appear here...</div>
+            </div>
+        </div>
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  WEB LOGIN BRUTE FORCE       ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <div class="tool-panel" id="tool-web-brute">
+            <div class="panel-header">
+                <h2>Web Login Brute Force</h2>
+                <p class="panel-desc">Test web login pages for weak credentials using a built-in password wordlist. For authorized testing only.</p>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Login URL (POST endpoint)</label>
+                    <input type="text" id="wb-url" placeholder="http://192.168.1.1/login or https://example.com/signin">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group-sm">
+                    <label>Username Input Name</label>
+                    <input type="text" id="wb-user-field" value="username" placeholder="username">
+                </div>
+                <div class="form-group-sm">
+                    <label>Password Input Name</label>
+                    <input type="text" id="wb-pass-field" value="password" placeholder="password">
+                </div>
+                <div class="form-group">
+                    <label>Target Username</label>
+                    <input type="text" id="wb-username" placeholder="admin">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group-sm">
+                    <label title="Wordlist uploaded via the Wordlists manager">Wordlist</label>
+                    <select id="wb-wordlist"><option value="">— built-in —</option></select>
+                </div>
+                <div class="form-group-sm">
+                    <label title="HTTP proxy — e.g. http://127.0.0.1:8080 to route through Burp Suite">Proxy</label>
+                    <input type="text" id="wb-proxy" placeholder="http://127.0.0.1:8080" title="Route traffic through this proxy">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <button class="btn btn-primary" id="wb-scan-btn">Brute Force</button>
+                <button class="btn btn-danger hidden" id="wb-stop-btn">Stop</button>
+            </div>
+
+            <div class="progress-wrap hidden" id="wb-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="wb-progress-fill"></div>
+                    <div class="progress-label" id="wb-progress-label">0%</div>
+                </div>
+            </div>
+
+            <div class="results-area" id="wb-results">
+                <div class="results-placeholder">Brute force results will stream in here...</div>
+            </div>
+
+            <div class="result-actions hidden" id="wb-actions">
+                <button class="btn btn-ghost" onclick="copyResults('wb-results')">Copy All</button>
+                <button class="btn btn-ghost" onclick="saveReport('web-brute')">Save Report</button>
+            </div>
+        </div>
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  ROBOTS / SITEMAP            ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <div class="tool-panel" id="tool-robots">
+            <div class="panel-header">
+                <h2>Robots.txt / Sitemap</h2>
+                <p class="panel-desc">Fetch and parse robots.txt and sitemap.xml to discover disallowed paths and site structure.</p>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Target URL</label>
+                    <input type="text" id="rob-url" placeholder="http://192.168.1.1 or https://example.com">
+                </div>
+            </div>
+            <div class="form-row">
+                <button class="btn btn-primary" id="rob-fetch-btn">Fetch</button>
+            </div>
+            <div class="results-area" id="rob-results">
+                <div class="results-placeholder">Robots.txt and sitemap results will appear here...</div>
+            </div>
+        </div>
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  SQL INJECTION SCANNER       ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <div class="tool-panel" id="tool-sqli">
+            <div class="panel-header">
+                <h2>SQL Injection Scanner</h2>
+                <p class="panel-desc">Test a URL parameter for error-based, time-based blind, and differential SQL injection. For authorized testing only.</p>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label title="The URL containing the parameter to test. Use GET or POST method.">Target URL</label>
+                    <input type="text" id="sqli-url" placeholder="http://example.com/page.php?id=1" title="URL of the page to test">
+                </div>
+                <div class="form-group-sm">
+                    <label title="The query/form parameter name to inject into — pick from the list or type your own. Use Auto to test all common names.">Parameter Name</label>
+                    <input type="text" id="sqli-param" placeholder="id" title="Parameter to inject, or click Auto-scan to test all from wordlist">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group-sm">
+                    <label>Method</label>
+                    <select id="sqli-method">
+                        <option value="GET">GET</option>
+                        <option value="POST">POST</option>
+                    </select>
+                </div>
+                <div class="form-group-sm">
+                    <label title="Route traffic through Burp Suite or another proxy">Proxy</label>
+                    <input type="text" id="sqli-proxy" placeholder="http://127.0.0.1:8080">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <button class="btn btn-primary" id="sqli-scan-btn">Scan</button>
+                <button class="btn btn-ghost" id="sqli-auto-btn" title="Test all common parameter names automatically">Auto-scan All Params</button>
+                <button class="btn btn-danger hidden" id="sqli-stop-btn">Stop</button>
+            </div>
+
+            <div class="progress-wrap hidden" id="sqli-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="sqli-progress-fill"></div>
+                    <div class="progress-label" id="sqli-progress-label">0%</div>
+                </div>
+            </div>
+
+            <div class="results-area" id="sqli-results">
+                <div class="results-placeholder">Enter URL + parameter name and click Scan...</div>
+            </div>
+
+            <div class="result-actions hidden" id="sqli-actions">
+                <button class="btn btn-ghost" onclick="copyResults('sqli-results')">Copy All</button>
+                <button class="btn btn-ghost" onclick="saveReport('sqli')">Save Report</button>
+            </div>
+        </div>
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  WORDLISTS MANAGER           ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <div class="tool-panel" id="tool-wordlists">
+            <div class="panel-header">
+                <h2>Wordlists</h2>
+                <p class="panel-desc">Upload wordlists (.txt, one entry per line) to use in Dir Brute, Subdomain Enum, Web Brute and Hash Cracker.</p>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Upload Wordlist (.txt)</label>
+                    <input type="file" id="wl-file" accept=".txt">
+                </div>
+                <div style="display:flex;align-items:flex-end">
+                    <button class="btn btn-primary" onclick="uploadWordlist()">Upload</button>
+                </div>
+            </div>
+
+            <div class="results-area" id="wl-results" style="min-height:120px">
+                <div class="results-placeholder">Loading wordlists...</div>
+            </div>
+        </div>
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  CVE SEARCH                  ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <div class="tool-panel" id="tool-cve-search">
+            <div class="panel-header">
+                <h2>CVE Search</h2>
+                <p class="panel-desc">Search the built-in vulnerability database by service name, port number, or CVE ID.</p>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Search Query</label>
+                    <input type="text" id="cve-query" placeholder="e.g. ssh, 22, CVE-2023-38408, ftp, http, smb...">
+                </div>
+            </div>
+            <div class="form-row">
+                <button class="btn btn-primary" id="cve-search-btn">Search</button>
+                <button class="btn btn-ghost" onclick="cveAll()">Browse All</button>
+            </div>
+            <div class="results-area" id="cve-results">
+                <div class="results-placeholder">Search for a service, port number, or CVE ID...</div>
+            </div>
+        </div>
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  REVERSE SHELL GENERATOR     ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <div class="tool-panel" id="tool-revshell">
+            <div class="panel-header">
+                <h2>Reverse Shell Generator</h2>
+                <p class="panel-desc">Generate ready-to-paste reverse shell commands. For authorized penetration testing only.</p>
+            </div>
+            <div class="form-row">
+                <div class="form-group-sm">
+                    <label title="Your machine's IP address that the target will connect back to">Listener IP (LHOST)</label>
+                    <input type="text" id="rs-lhost" placeholder="192.168.1.10" title="Your listener IP">
+                </div>
+                <div class="form-group-xs">
+                    <label title="Port your nc/socat/pwncat listener is on">Port (LPORT)</label>
+                    <input type="number" id="rs-lport" value="4444" min="1" max="65535" title="Listener port">
+                </div>
+                <div style="display:flex;align-items:flex-end;gap:6px">
+                    <button class="btn btn-primary" onclick="generateRevShells()">Generate</button>
+                    <button class="btn btn-ghost" id="rs-copy-all-btn" onclick="copyAllShells()" style="display:none">Copy All</button>
+                </div>
+            </div>
+            <div id="rs-output" class="results-area">
+                <div class="results-placeholder">Enter LHOST / LPORT and click Generate...</div>
+            </div>
+        </div>
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  HASH CRACKER                ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <div class="tool-panel" id="tool-hash-crack">
+            <div class="panel-header">
+                <h2>Hash Cracker</h2>
+                <p class="panel-desc">Crack MD5, SHA-1, SHA-256, and SHA-512 hashes against the built-in password wordlist.</p>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Hash to Crack</label>
+                    <input type="text" id="hc-hash" placeholder="5f4dcc3b5aa765d61d8327deb882cf99" spellcheck="false">
+                </div>
+                <div class="form-group-sm">
+                    <label>Algorithm</label>
+                    <select id="hc-algo">
+                        <option value="auto">Auto-Detect</option>
+                        <option value="md5">MD5</option>
+                        <option value="sha1">SHA-1</option>
+                        <option value="sha256">SHA-256</option>
+                        <option value="sha512">SHA-512</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group-sm">
+                    <label title="Upload wordlists in the Wordlists manager">Wordlist</label>
+                    <select id="hc-wordlist"><option value="">— built-in —</option></select>
+                </div>
+            </div>
+            <div class="form-row">
+                <button class="btn btn-primary" id="hc-crack-btn">Crack</button>
+                <button class="btn btn-danger hidden" id="hc-stop-btn">Stop</button>
+            </div>
+            <div class="progress-wrap hidden" id="hc-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="hc-progress-fill"></div>
+                    <div class="progress-label" id="hc-progress-label">0%</div>
+                </div>
+            </div>
+            <div class="results-area" id="hc-results">
+                <div class="results-placeholder">Enter a hash and click Crack...</div>
+            </div>
+        </div>
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  SUBNET CALCULATOR           ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <div class="tool-panel" id="tool-subnet">
+            <div class="panel-header">
+                <h2>Subnet Calculator</h2>
+                <p class="panel-desc">Calculate network range, broadcast, first/last host, and usable IPs from CIDR notation.</p>
+            </div>
+            <div class="form-row">
+                <div class="form-group-sm">
+                    <label>IP / CIDR</label>
+                    <input type="text" id="sn-cidr" placeholder="192.168.1.0/24">
+                </div>
+                <div style="display:flex;align-items:flex-end">
+                    <button class="btn btn-primary" onclick="calcSubnet()">Calculate</button>
+                </div>
+            </div>
+            <div class="form-row" style="flex-wrap:wrap;gap:6px" id="sn-quick-btns">
+                <button class="btn btn-ghost" onclick="snPreset('/8')">/8  Class A</button>
+                <button class="btn btn-ghost" onclick="snPreset('/16')">/16  Class B</button>
+                <button class="btn btn-ghost" onclick="snPreset('/24')">/24  Class C</button>
+                <button class="btn btn-ghost" onclick="snPreset('/25')">/25</button>
+                <button class="btn btn-ghost" onclick="snPreset('/26')">/26</button>
+                <button class="btn btn-ghost" onclick="snPreset('/27')">/27</button>
+                <button class="btn btn-ghost" onclick="snPreset('/28')">/28</button>
+                <button class="btn btn-ghost" onclick="snPreset('/30')">/30</button>
+            </div>
+            <div class="results-area" id="sn-results">
+                <div class="results-placeholder">Enter CIDR notation to calculate subnet information...</div>
+            </div>
+        </div>
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  REPORTS                     ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <div class="tool-panel" id="tool-reports">
+            <div class="panel-header">
+                <h2>Reports</h2>
+                <p class="panel-desc">Saved scan results stored locally in the <code>reports/</code> folder.</p>
+            </div>
+
+            <div class="form-row">
+                <button class="btn btn-ghost" onclick="loadReports()">Refresh</button>
+                <button class="btn btn-danger" onclick="deleteAllReports()">Delete All</button>
+            </div>
+            <div id="reports-export-row" class="hidden" style="padding:8px 0 0"></div>
+
+            <div class="results-area" id="reports-list" style="max-height:none;min-height:300px">
+                <div class="results-placeholder">Loading reports...</div>
+            </div>
+        </div>
+
+        <!-- ╔══════════════════════════════╗ -->
+        <!-- ║  LOGS                        ║ -->
+        <!-- ╚══════════════════════════════╝ -->
+        <div class="tool-panel" id="tool-logs">
+            <div class="panel-header">
+                <h2>Activity Log</h2>
+                <p class="panel-desc">Every action is recorded here and written to <code>logs/activity.log</code>.</p>
+            </div>
+
+            <div class="form-row">
+                <button class="btn btn-ghost" onclick="loadLogs()">Refresh</button>
+                <a class="btn btn-ghost" href="/api/logs/download" download style="text-decoration:none">Download</a>
+                <button class="btn btn-danger" onclick="clearLogs()">Clear Log</button>
+                <span id="log-count" style="font-family:var(--mono);font-size:12px;color:var(--text-muted);margin-left:4px;align-self:center"></span>
+            </div>
+
+            <div class="log-area" id="log-area">
+                <div class="results-placeholder">Loading logs...</div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- Toast notification -->
+<div class="toast" id="toast"></div>
+
+<!-- Confirm Modal -->
+<div class="modal-overlay hidden" id="confirm-modal">
+    <div class="modal-box">
+        <div class="modal-title">Confirm Delete</div>
+        <div class="modal-msg" id="confirm-msg"></div>
+        <div class="modal-btns">
+            <button class="btn btn-ghost" id="confirm-no">Cancel</button>
+            <button class="btn btn-danger" id="confirm-yes">Delete</button>
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+# SQL Injection Parameter Wordlist
+# Common parameter names to test for SQL injection
+# Add your own below
+
+# IDs / record lookups
+id
+user_id
+product_id
+item_id
+post_id
+page_id
+cat_id
+order_id
+record_id
+entry_id
+news_id
+article_id
+blog_id
+comment_id
+review_id
+
+# Search / filtering
+q
+query
+search
+keyword
+keywords
+filter
+s
+term
+terms
+find
+lookup
+text
+
+# Navigation / pagination
+page
+p
+pid
+category
+cat
+sort
+order
+dir
+type
+tab
+view
+section
+chapter
+
+# Auth / user
+username
+user
+email
+login
+name
+password
+pass
+uname
+fname
+lname
+
+# Content
+article
+title
+content
+slug
+tag
+ref
+url
+file
+path
+doc
+document
+report
+
+# Misc high-value
+token
+key
+code
+lang
+redirect
+returnUrl
+next
+callback
+action
+mode
+format
+output
+template

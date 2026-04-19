@@ -1,0 +1,30 @@
+2026-04-19 15:53:14 | SYSTEM       | Log cleared by user
+2026-04-19 16:05:08 | PORT-SCAN    | Started scan on 192.168.2.1 — ports 1-1024, threads 100
+2026-04-19 16:05:08 | PORT-SCAN    | OPEN 53/DNS on 192.168.2.1
+2026-04-19 16:05:08 | PORT-SCAN    | OPEN 80/HTTP on 192.168.2.1 — HTTP/1.0 405 Method Not Allowed
+2026-04-19 16:05:12 | PORT-SCAN    | OPEN 443/HTTPS on 192.168.2.1
+2026-04-19 16:05:12 | PORT-SCAN    | OPEN 445/SMB on 192.168.2.1
+2026-04-19 16:05:13 | PORT-SCAN    | Complete — 4 open port(s) on 192.168.2.1
+2026-04-19 16:05:22 | DNS          | Lookup started for 192.168.2.1
+2026-04-19 16:05:23 | DNS          | Complete — 192.168.2.1 resolves to 192.168.2.1, reverse: mynetwork.home
+2026-04-19 16:05:29 | SUBDOMAIN    | Enumeration started for 192.168.2.1
+2026-04-19 16:05:29 | SUBDOMAIN    | Complete — 0 subdomain(s) found for 192.168.2.1
+2026-04-19 16:05:34 | HEADERS      | Analysis started for http://192.168.2.1
+2026-04-19 16:05:34 | HEADERS      | Complete — grade C, score 3/6 for http://192.168.2.1/
+2026-04-19 16:05:38 | SSL          | Inspecting 192.168.2.1:443
+2026-04-19 16:05:38 | SSL          | 192.168.2.1:443 — TLSv1.3, expires , ? days left
+2026-04-19 16:05:45 | DIR-BRUTE    | Scan started for http://192.168.2.1/
+2026-04-19 16:05:45 | DIR-BRUTE    | FOUND http://192.168.2.1/index.html → HTTP 200
+2026-04-19 16:05:45 | DIR-BRUTE    | FOUND http://192.168.2.1/js → HTTP 301
+2026-04-19 16:05:45 | DIR-BRUTE    | Complete — 2 path(s) found on http://192.168.2.1/
+2026-04-19 16:06:01 | SQLI         | Scan started — http://192.168.2.1/ param=auto method=GET
+2026-04-19 16:06:03 | SQLI         | Complete — 0 finding(s), severity: none on http://192.168.2.1/
+2026-04-19 16:06:08 | ROBOTS       | Fetching robots.txt and sitemap for http://192.168.2.1/
+2026-04-19 16:06:08 | ROBOTS       | Complete — 0 disallowed paths, 0 sitemap URLs
+2026-04-19 16:06:21 | SESSION      | Full session report saved — 4 ports, 0 subdomains
+2026-04-19 16:06:53 | SESSION      | All scan data cleared by user
+2026-04-19 16:17:52 | CVE-SEARCH   | Query: 21
+2026-04-19 16:17:59 | CVE-SEARCH   | Query: 21
+2026-04-19 16:18:11 | CVE-SEARCH   | Query: 25
+2026-04-19 16:18:24 | CVE-SEARCH   | Query: 23
+2026-04-19 16:19:07 | CVE-SEARCH   | Query: 21
