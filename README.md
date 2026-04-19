@@ -1,6 +1,6 @@
 # CyberTool
 
-<img width="2504" height="1229" alt="Image" src="https://github.com/user-attachments/assets/b30193df-5f52-46c4-b6fb-edf9294bb154" />
+<img width="1880" height="1326" alt="Image" src="https://github.com/user-attachments/assets/9885c9eb-ceff-4c95-ad4a-584f68553514" />
 
 A self-hosted, all-in-one penetration testing web app that runs locally on `localhost:5000`. Built with Flask and plain JavaScript — no frameworks, no cloud, no data leaves your machine.
 
