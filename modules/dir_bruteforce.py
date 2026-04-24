@@ -1,3 +1,4 @@
+import uuid
 import requests
 import concurrent.futures
 import urllib3
@@ -6,6 +7,32 @@ from modules.utils import load_wordlist, next_user_agent, make_proxies
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 INTERESTING_CODES = {200, 201, 204, 301, 302, 307, 308, 401, 403, 405, 500}
+
+# How similar (in bytes) a response size must be to the baseline to be considered a soft-404.
+_SIZE_TOLERANCE = 10
+
+
+def _detect_baseline(session, base_url):
+    """Request a guaranteed-nonexistent path to detect soft-404 behaviour.
+
+    Returns (status, size) of the canary response, or (None, None) on error.
+    """
+    canary = f"{base_url}/{uuid.uuid4().hex}/{uuid.uuid4().hex}"
+    try:
+        resp = session.get(canary, timeout=5, allow_redirects=False)
+        return resp.status_code, len(resp.content)
+    except Exception:
+        return None, None
+
+
+def _is_baseline_match(status, size, baseline_status, baseline_size):
+    """Return True if this response looks like the soft-404 baseline."""
+    if baseline_status is None:
+        return False
+    if status != baseline_status:
+        return False
+    # Allow a small size window to account for minor dynamic content differences.
+    return abs(size - baseline_size) <= _SIZE_TOLERANCE
 
 
 def stream_scan(base_url, state, custom_wordlist=None, proxy=None, verify_ssl=False,
@@ -51,6 +78,8 @@ def stream_scan(base_url, state, custom_wordlist=None, proxy=None, verify_ssl=Fa
         if proxy:
             session.proxies = make_proxies(proxy)
 
+        baseline_status, baseline_size = _detect_baseline(session, target_url)
+
         def check(path):
             url = f"{target_url}/{path.lstrip('/')}"
             if url in scanned_urls:
@@ -58,7 +87,11 @@ def stream_scan(base_url, state, custom_wordlist=None, proxy=None, verify_ssl=Fa
             scanned_urls.add(url)
             try:
                 resp = session.get(url, timeout=5, allow_redirects=False)
-                return url, resp.status_code, len(resp.content), resp.headers.get('Content-Type', '')
+                status = resp.status_code
+                size = len(resp.content)
+                if _is_baseline_match(status, size, baseline_status, baseline_size):
+                    return url, None, 0, ''
+                return url, status, size, resp.headers.get('Content-Type', '')
             except Exception:
                 return url, None, 0, ''
 
